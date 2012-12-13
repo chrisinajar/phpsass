@@ -898,6 +898,12 @@ class SassScriptFunctions {
     if ($list instanceOf SassString) {
       $list = new SassList($list->toString());
     }
+    if ($list instanceOf SassBoolean) {
+      $list = new SassList($list->toBoolean());
+    }
+    if (!method_exists($list, 'append')) {
+        throw new SassScriptFunctionException('No append function on object '.$list, SassScriptParser::$context->node);
+    }
     $list->append($val, $sep);
     return $list;
   }
